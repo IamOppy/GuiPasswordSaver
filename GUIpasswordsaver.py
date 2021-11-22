@@ -27,15 +27,20 @@ class Application():
         self.PASSWORD_ENTRY = tk.Entry(window, bd=3)
         self.PASSWORD_ENTRY.place(x=200, y=205, anchor='center')
         LOGIN_BUTTON = tk.Button(window, text='LOGIN', font=Custom_Font,
-                                 command=self.Check_Login_details)
+                                 command=lambda:[self.Check_Login_details(), self.CHANGE_FRAME()])
         LOGIN_BUTTON.place(x=200, y=250, anchor='center')
+        self.MENU_FRAME = tk.Frame(window)
+        
         window.mainloop()
 
+        
 
+    def CHANGE_FRAME(self):
+        self.MENU_FRAME.pack(fill='both', expand=True)
+        
 
     def _database(Check_Login_details):
         conn = sqlite3.connect('011223054.db')
-        print('Opened Database')
         conn.execute('''CREATE TABLE IF NOT EXISTS LOGIN_DETAILS
         ( username TEXT, password TEXT);''')
         conn.execute("INSERT INTO LOGIN_DETAILS(username, password) VALUES ('Admin-Zeph', 'Z1')")
@@ -43,7 +48,10 @@ class Application():
         def check_detail_match(*args, **kwargs):
             username, password = Check_Login_details(*args, **kwargs)
             view = cursor.execute('SELECT * FROM LOGIN_DETAILS WHERE username=? AND password=?', (username, password))
-            print('Success')
+            if view.fetchone():
+                print(messagebox.showinfo('Success', 'Login Successful'))
+            else:
+                print(messagebox.showinfo('Invalid', 'Invalid Login Crendentials'))
         return check_detail_match
 
     @_database
