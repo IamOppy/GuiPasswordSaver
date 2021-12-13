@@ -7,7 +7,7 @@ import sqlite3
 from tkinter import Message, font, messagebox
 
 
-class Application():
+class Application_LOGIN():
 
     def __init__(self):
         window = tk.Tk()
@@ -27,7 +27,14 @@ class Application():
         LOGIN_BUTTON = tk.Button(window, text='LOGIN', font=Custom_Font,
                                  command=self.Check_Login_details)
         LOGIN_BUTTON.place(x=200, y=250, anchor='center')
-        self.MENU_FRAME = tk.Frame(window)
+
+        
+        """IF LOGIN DETAILS ARE CORRECT THIS WILL RUN"""
+        self.MENU_FRAME = tk.LabelFrame(window, text="MENU OPTIONS")
+        self.MENU_FRAME.pack(padx=10, pady=10)
+        ADD_LOGINS_BUTTON = tk.Button(self.MENU_FRAME, text="ADD LOGIN CREDENTIALS", font=Custom_Font) """"STOPPED_______HERE_____"""
+        ADD_LOGINS_BUTTON.place(x=110, y=80)
+
 
         window.mainloop()
 
@@ -60,11 +67,9 @@ class Application():
 
     @_database
     def Check_Login_details(self):
-
         username = self.USER_NAME_ENTRY.get()
         password = self.PASSWORD_ENTRY.get()
         return username, password, self.MENU_FRAME
 
-
-obj = Application()
-obj.main()
+if __name__ == "__main__":
+    obj = Application_LOGIN()
